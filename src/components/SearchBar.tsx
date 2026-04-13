@@ -10,7 +10,7 @@ function SearchBar({movieKeyword, setMovieKeyword}:Props){
         setMovieKeyword(e.target.value);
     }
     const handleSearch = () => {
-
+        
     }
     return(
         <>
