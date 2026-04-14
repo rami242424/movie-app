@@ -9,33 +9,18 @@ export interface Props {
     setError: (value: string|null) => void;
     movie: string[];
     setMovie: (value: string[]) => void;
+    handleSearch: () => void;
 }
 
  
-const API_KEY = "";
+//const API_KEY = "";
 
-function SearchBar({movieKeyword, setMovieKeyword,loading,setLoading,error,setError,movie,setMovie}:Props){
+function SearchBar({movieKeyword, setMovieKeyword,loading,error,movie,handleSearch}:Props){
     
     const handleKeywordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setMovieKeyword(e.target.value);
     }
-    const handleSearch = async() => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await fetch(``);
-            if(!response.ok) throw new Error("검색어를 찾을 수 없습니다.");
-        } catch(error){
-            if( error instanceof Error){    
-                console.log(error.message);
-                setError(error.message);
-            }
-        } finally{
-            setLoading(false);
-        }
-
-
-    }
+    
     return(
         <>
             <input value={movieKeyword} onChange={handleKeywordChange}/>
