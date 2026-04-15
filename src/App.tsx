@@ -1,31 +1,36 @@
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
-import MovieList, { type Movie } from "./components/MovieList";
+import type { Movie } from "./types/movie";
+import MovieList from "./components/MovieList";
+
 
 const API_KEY = "ae39336185873212a3317f6c4e235bbf";
+type Status = "idle" | "loading" | "success" | "error";
 
 function App(){
   const [movieKeyword, setMovieKeyword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string|null>(null);
   const [movie, setMovie] = useState<Movie[]>([]);
   const handleSearch = async() => {
-        setLoading(true);
+      if(!movieKeyword.trim()) return;
+
+        setStatus("loading");
         setError(null);
         try {
             const response = await fetch(
-              `https://api.themoviedb.org/3/search/movie?query=${movieKeyword}&api_key=${API_KEY}`);
-            if(!response.ok) throw new Error("검색어를 찾을 수 없습니다.");
+              `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieKeyword)}&api_key=${API_KEY}`);
+            if(!response.ok) throw new Error("API 요청 실패");
             const json = await response.json();
-            console.log(json.results[0].title, "json이에요")
-            setMovie(json.results);
+              setMovie(json.results);
+              setStatus("success");
         } catch(error){
-            if( error instanceof Error){    
-                console.log(error.message);
-                setError(error.message);
-            }
+          if( error instanceof Error){    
+              //console.log(error.message);
+              setError(error.message);
+          }
         } finally{
-            setLoading(false);
+          //
         }
     }
   return (
@@ -33,12 +38,9 @@ function App(){
       <SearchBar 
         movieKeyword={movieKeyword}
         setMovieKeyword={setMovieKeyword}
-        loading = {loading}
-        error = {error}
         handleSearch = {handleSearch}
       />
-      <MovieList movie={movie} />
-
+      <MovieList movie={movie} status={status} error={error} />
     </>
   );
 }
