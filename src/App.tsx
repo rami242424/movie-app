@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SearchBar from "./components/SearchBar";
 
 const API_KEY = "ae39336185873212a3317f6c4e235bbf";
 
@@ -16,13 +17,15 @@ function App(){
   const [error, setError] = useState<string|null>(null);
   const [movieKeyword, setMovieKeyword] = useState("");
   const [movie, setMovie] = useState<MovieProps[]>([]);
+  const [searching, setSearching] = useState(false);
 
-  const handleKeywordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setMovieKeyword(e.target.value);
-  }
+  // const handleKeywordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   setMovieKeyword(e.target.value);
+  // }
   const handleSearch = async() => {
     if(!movieKeyword.trim()) return;
     // 초기화
+    setSearching(true);
     setLoading(true);
     setError(null);
     setMovie([]);
@@ -37,26 +40,44 @@ function App(){
       if( error instanceof Error){
         setError(error.message);
       }
-    } 
-    setLoading(false);
+    } finally{
+      setLoading(false);
+    }
   }
 
   return(
     <>
-      <input value={movieKeyword} placeholder="영화 제목을 검색하세요." onChange={handleKeywordChange}/>
-      <button onClick={handleSearch}>Search</button>
+      {/* <input value={movieKeyword} placeholder="영화 제목을 검색하세요." onChange={handleKeywordChange}/> */}
+      {/* <button onClick={handleSearch}>Search</button> */}
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {movie && (
-        <ul>
-          {movie.map((m) => 
-            <li key={m.id}>
-              <h3>{m.title} ({m.release_date})</h3>
-              
-            </li>
-          )}
-        </ul>
-      )}
+      <SearchBar 
+        movieKeyword={movieKeyword}
+        setMovieKeyword={setMovieKeyword}
+        handleSearch={handleSearch}
+      />
+      {searching && (
+        movie.length === 0 
+        ? (<div>검색결과가 없습니다.</div>)
+        : (
+          <ul>
+            {movie.map((m) => 
+              <li key={m.id}>
+                <h3>{m.title} ({m.release_date})</h3>
+                {m.poster_path && (
+                    <img src={`https://image.tmdb.org/t/p/w200/${m.poster_path}`}/>
+                  )
+                }
+                <p>Summary : {m.overview.length > 180 
+                  ? m.overview.slice(0, 180) + "..."
+                  : m.overview
+                  }
+                </p>
+                <p>🌟{m.vote_average}</p>
+              </li>
+            )}
+          </ul>
+      ))}
     </>
   );
 }
