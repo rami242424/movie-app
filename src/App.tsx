@@ -1,9 +1,10 @@
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
+import MovieList from "./components/MovieList";
 
 const API_KEY = "ae39336185873212a3317f6c4e235bbf";
 
-interface MovieProps {
+export interface MovieProps {
   title: string;
   release_date: string;
   vote_average: number;
@@ -18,10 +19,6 @@ function App(){
   const [movieKeyword, setMovieKeyword] = useState("");
   const [movie, setMovie] = useState<MovieProps[]>([]);
   const [searching, setSearching] = useState(false);
-
-  // const handleKeywordChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-  //   setMovieKeyword(e.target.value);
-  // }
   const handleSearch = async() => {
     if(!movieKeyword.trim()) return;
     // 초기화
@@ -47,16 +44,18 @@ function App(){
 
   return(
     <>
-      {/* <input value={movieKeyword} placeholder="영화 제목을 검색하세요." onChange={handleKeywordChange}/> */}
-      {/* <button onClick={handleSearch}>Search</button> */}
-      {loading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
       <SearchBar 
         movieKeyword={movieKeyword}
         setMovieKeyword={setMovieKeyword}
         handleSearch={handleSearch}
       />
-      {searching && (
+      {loading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
+      <MovieList 
+        searching={searching}
+        movie={movie}
+      />
+      {/* {searching && (
         movie.length === 0 
         ? (<div>검색결과가 없습니다.</div>)
         : (
@@ -77,7 +76,7 @@ function App(){
               </li>
             )}
           </ul>
-      ))}
+      ))} */}
     </>
   );
 }
