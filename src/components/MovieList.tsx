@@ -1,21 +1,25 @@
-import type { IMovieProps } from "../App";
+import type { IProps } from "../App";
+import MovieItems from "./MovieItems";
 
-interface Props {
-  movies: IMovieProps[];
+export interface ImovieListProps {
+  movies: IProps[];
+  loading: boolean;
+  error: string | null;
+  hasSearching: boolean;
 }
 
-function MovieList({movies}:Props){
+function MovieList({movies, loading, error, hasSearching}:ImovieListProps){
   return(
     <>
-      {movies.length > 0 && (
+      {!loading && !error && hasSearching && movies.length === 0 ? (
+          <div>검색결과가 없습니다.</div>
+        ) : (
           <ul>
             {movies.map((movie) => 
-              <li key={movie.id}>
-                <h3>{movie.title} ({movie.release_date})</h3>
-                {/* <p>Original title ({movie.original_title})</p> */}
-                {movie.poster_path && (<img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}/>)}
-                <p>{movie.overview}</p>
-              </li>
+                <MovieItems 
+                  movie={movie}
+                  key={movie.id}
+                />
             )}
           </ul>
       )}
