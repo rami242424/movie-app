@@ -51,8 +51,6 @@ function App(){
       setKeyword={setKeyword}
       loading={loading}
     />
-    {loading && <div>Loading...</div>}
-    {error && <div>{error}</div>}
     <MovieList 
       movies={movies}
       loading={loading}

@@ -7,7 +7,7 @@ interface IMovieItemsProps{
 function MovieItems({movie}:IMovieItemsProps){
     return(
         <>  
-            <li className="bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition duration-300 flex flex-col">
+            <li className="bg-white p-5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-2 transition duration-300 flex flex-col">
                 <div>
                     {movie.poster_path && (
                         <img 
@@ -21,7 +21,7 @@ function MovieItems({movie}:IMovieItemsProps){
                         {movie.title}
                     </h4>
                     <p className="text-sm text-gray-600 line-clamp-2">
-                        Summary : {movie.overview}
+                        {movie.overview}
                     </p>
                     <p className="mt-auto flex items-center gap-1 text-yellow-500 font-medium">
                         🌟{movie.vote_average}
