@@ -6,20 +6,22 @@ interface IMovieItemProps {
 
 function MovieItem({movie}:IMovieItemProps){
     return (
-        <li className="border rounded p-3 shadow-sm hover:shadow-md transition">
-            <h3>{movie.title}</h3>
-            <p>{movie.release_date}</p>
-            {movie.poster_path ? (
-                <img 
-                    className="border rounded p-4 shadow-sm hover:shadow-md transition"
-                    src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                    alt={movie.title}
-                />
-            ) : (
-                <div>No Image</div>
-            )}
-            <p>{movie.overview}</p>
-            <p>🌟{movie.vote_average}</p>
+        <li className="border rounded p-3 shadow-sm hover:shadow-md hover:scale-[1.02] transition">
+            <div className="space-y-2">
+                <h3 className="font-semibold text-lg line-clamp-1">{movie.title}</h3>
+                <p className="text-sm text-gray-500">{movie.release_date}</p>
+                {movie.poster_path ? (
+                    <img 
+                        className="w-full h-64 object-cover rounded"
+                        src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                        alt={movie.title}
+                    />
+                ) : (
+                    <div>No Image</div>
+                )}
+                <p className="text-sm line-clamp-3">{movie.overview}</p>
+                <p className="font-medium">🌟{movie.vote_average}</p>
+            </div>
         </li>
     );
 }
