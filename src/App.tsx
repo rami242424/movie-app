@@ -41,24 +41,26 @@ function App(){
     }
   }
   return (
-    <>
+    <div className="max-w-6xl mx-auto px-4">
       <SearchBar 
         keyword={keyword}
         setKeyword={setKeyword}
         handleSearch={handleSearch}
         status={status}
       />
-      {status === "loading" && <div>Loading...</div>}
-      {status === "error" && <div>{error}</div>}
-      {status === "success" && movies.length === 0 && (
-        <div>검색된 결과가 없습니다.</div>
-      )}
-      {status === "success" && movies.length > 0 && (
-        <MovieList 
+      <div className="mt-10">
+        {status === "loading" && <div className="text-center py-10">Loading...</div>}
+        {status === "error" && <div className="text-center py-10 text-red-500">{error}</div>}
+        {status === "success" && movies.length === 0 && (
+          <div className="text-center py-10">검색된 결과가 없습니다.</div>
+        )}
+        {status === "success" && movies.length > 0 && (
+          <MovieList 
           movies={movies}
-        />
-      )}
-    </>
+          />
+        )}
+      </div>
+    </div>
   );
 }
 
