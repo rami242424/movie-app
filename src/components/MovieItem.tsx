@@ -9,7 +9,7 @@ function MovieItem({movie}:IMovieItemProps){
         <li className="border rounded p-4 shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
             <div className="space-y-2">
                 <h3 className="font-semibold text-lg line-clamp-1">{movie.title}</h3>
-                <p className="text-sm text-gray-500">{movie.release_date}</p>
+                <p className="text-sm text-gray-500">{new Date(movie.release_date).getFullYear()}</p>
                 {movie.poster_path ? (
                     <img 
                         className="w-full h-64 object-cover rounded"

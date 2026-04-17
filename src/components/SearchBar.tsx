@@ -14,7 +14,7 @@ function SearchBar({keyword, handleSearch, setKeyword, status}:ISearchBarProps){
 
   return (
     <div className="flex justify-center mt-10 gap-2">
-      <input 
+      <input
         className=" w-full max-w-xs px-3 py-2 border border-gray-400 rounded"
         value={keyword} 
         placeholder="영화 제목을 검색하세요." 
