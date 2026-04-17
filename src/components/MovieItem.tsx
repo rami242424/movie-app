@@ -6,7 +6,7 @@ interface IMovieItemProps {
 
 function MovieItem({movie}:IMovieItemProps){
     return (
-        <li className="border rounded p-3 shadow-sm hover:shadow-md hover:scale-[1.02] transition">
+        <li className="border rounded p-4 shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
             <div className="space-y-2">
                 <h3 className="font-semibold text-lg line-clamp-1">{movie.title}</h3>
                 <p className="text-sm text-gray-500">{movie.release_date}</p>
@@ -17,10 +17,10 @@ function MovieItem({movie}:IMovieItemProps){
                         alt={movie.title}
                     />
                 ) : (
-                    <div>No Image</div>
+                    <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded">No Image</div>
                 )}
                 <p className="text-sm line-clamp-3">{movie.overview}</p>
-                <p className="font-medium">🌟{movie.vote_average}</p>
+                <p className="font-medium">🌟{movie.vote_average.toFixed(1)}</p>
             </div>
         </li>
     );
