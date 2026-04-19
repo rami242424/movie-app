@@ -1,4 +1,4 @@
-import type { IMovies } from "../App";
+import type { IMovies } from "../types/movie";
 import MovieItem from "./MovieItem";
 
 interface IMovieListProps{
@@ -9,7 +9,8 @@ function MovieList({movies}:IMovieListProps){
   return(
     <ul>
       {movies.map((movie) => (
-        <MovieItem 
+        <MovieItem
+          key={movie.id}
           movie={movie}
         />
       ))}

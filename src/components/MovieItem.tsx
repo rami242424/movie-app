@@ -1,4 +1,4 @@
-import type { IMovies } from "../App";
+import type { IMovies } from "../types/movie";
 
 interface ImovieItem {
     movie: IMovies
@@ -6,7 +6,7 @@ interface ImovieItem {
 
 function MovieItem({movie}:ImovieItem){
     return (
-        <li key={movie.id}>
+        <li>
           <h3>{movie.title}</h3>
           <p>{movie.release_date}</p>
           {movie.poster_path ? (
