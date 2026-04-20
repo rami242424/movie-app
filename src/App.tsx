@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { IMovies } from "./types/movie";
+import SearchBar from "./components/SearchBar";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -10,9 +11,7 @@ function App(){
   const [movies, setMovies] = useState<IMovies[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  }
+
   const searchMovie = async() => {
     if(!keyword.trim()) return;
     setHasSearched(true);
@@ -35,20 +34,12 @@ function App(){
   }
   return(
     <>
-      <input 
-        value={keyword}
-        placeholder="영화이름을 검색하세요."
-        onChange={handleInputChange}
-        onKeyDown={(e) => {
-          if(e.key === "Enter") searchMovie();
-        }}
+      <SearchBar 
+        keyword={keyword}
+        setKeyword={setKeyword}
+        searchMovie={searchMovie}
+
       />
-      <button
-        onClick={searchMovie}
-        // disabled
-      >
-        Search
-      </button>
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
       {!loading && !error && movies.length === 0 && hasSearched && <div>검색결과가 없습니다.</div>}
