@@ -15,6 +15,7 @@ function App(){
   }
   const searchMovie = async() => {
     if(!keyword.trim()) return;
+    setHasSearched(true);
     setLoading(true);
     setError(null);
     setMovies([]);
@@ -30,7 +31,6 @@ function App(){
       }
     } finally {
       setLoading(false);
-      setHasSearched(true);
     }
   }
   return(
