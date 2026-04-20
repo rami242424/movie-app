@@ -14,4 +14,8 @@ export interface MoviesResponse {
     total_results: number;
 }
 
-export type Status = "idle" | "loading" | "success" | "error";
+export type FetchState = 
+    | {status: "idle"}
+    | {status: "loading"}
+    | {status: "success"; data: IMovies[]}
+    | {status: "error"; error: string};
