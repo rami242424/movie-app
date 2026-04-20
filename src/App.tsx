@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { IMovies } from "./types/movie";
 import SearchBar from "./components/SearchBar";
+import MovieList from "./components/MovieList";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -44,9 +45,9 @@ function App(){
       {error && <div>{error}</div>}
       {!loading && !error && movies.length === 0 && hasSearched && <div>검색결과가 없습니다.</div>}
       {movies.length > 0 && (
-        movies.map((movie) => (
-          <li>{movie.title}</li>
-        ))
+        <MovieList
+          movies={movies}
+        />
       )}
     </>
   );
