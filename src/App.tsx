@@ -32,21 +32,22 @@ function App(){
     } 
   }
   return(
-    <>
-      <SearchBar 
-        keyword={keyword}
-        setKeyword={setKeyword}
-        searchMovie={searchMovie}
-
-      />
-      {fetchState.status === "loading" && <div>Loading...</div>}
-      {fetchState.status === "error" && <div>{fetchState.error}</div>}
-      {fetchState.status === "success" && (
-        fetchState.data.length === 0
-        ? <div>검색결과가 없습니다.</div>
-        : <MovieList movies={fetchState.data}/>
-      )}
-    </>
+    <div className="min-h-screen bg-gray-500 flex flex-col items-center py-10">
+      <div className="w-full max-w-2xl">
+        <SearchBar 
+          keyword={keyword}
+          setKeyword={setKeyword}
+          searchMovie={searchMovie}
+        />
+        {fetchState.status === "loading" && <div>Loading...</div>}
+        {fetchState.status === "error" && <div>{fetchState.error}</div>}
+        {fetchState.status === "success" && (
+          fetchState.data.length === 0
+          ? <div>검색결과가 없습니다.</div>
+          : <MovieList movies={fetchState.data}/>
+        )}
+      </div>  
+    </div>
   );
 }
 
