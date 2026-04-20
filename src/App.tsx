@@ -32,7 +32,7 @@ function App(){
     } 
   }
   return(
-    <div className="min-h-screen bg-gray-500 flex flex-col items-center py-10">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-10">
       <div className="w-full max-w-2xl">
         <SearchBar 
           keyword={keyword}

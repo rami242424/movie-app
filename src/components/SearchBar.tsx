@@ -9,8 +9,9 @@ function SearchBar({keyword, setKeyword, searchMovie}:ISearchBarProps){
     setKeyword(e.target.value);
   }
   return(
-    <>
+    <div className="flex gap-2 mb-6">
       <input 
+        className="flex-1 p-2 border border-gray-300 rounded"
         value={keyword}
         placeholder="영화이름을 검색하세요."
         onChange={handleInputChange}
@@ -19,12 +20,13 @@ function SearchBar({keyword, setKeyword, searchMovie}:ISearchBarProps){
         }}
       />
       <button
+        className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
         onClick={searchMovie}
         // disabled
       >
         Search
       </button>
-    </>
+    </div>
   );
 }
 
