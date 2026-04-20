@@ -8,10 +8,11 @@ interface IMovieListProps {
 function MovieList({movies}:IMovieListProps){
   return(
     <ul
-      className="grid grid-cols-2 gap-4"
+      className="grid grid-cols-3 gap-4"
     >
       {movies.map((movie) => (
-        <MovieItem 
+        <MovieItem
+          key={movie.id}
           movie={movie}
         />
       ))}

@@ -9,7 +9,7 @@ function SearchBar({keyword, setKeyword, searchMovie}:ISearchBarProps){
     setKeyword(e.target.value);
   }
   return(
-    <div className="flex gap-2 mb-6">
+    <div className="flex gap-2 mb-6 max-w-md mx-auto">
       <input 
         className="flex-1 p-2 border border-gray-300 rounded"
         value={keyword}
