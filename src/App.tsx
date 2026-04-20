@@ -3,7 +3,7 @@ import { type FetchState  } from "./types/movie";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
 function App(){
   const [keyword, setKeyword] = useState("");
@@ -15,7 +15,13 @@ function App(){
     setFetchState({status: "loading"});
 
     try{
-      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}&api_key=${API_KEY}`);
+      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`
+        }
+      }
+      );
       if(!response.ok) throw new Error("API 연결 실패");
       const json = await response.json();
       setFetchState({
