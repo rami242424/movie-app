@@ -1,4 +1,4 @@
-export type IMovies = {
+export type IMoviesProps = {
     id: number;
     poster_path: string| null;
     overview: string;
@@ -9,7 +9,7 @@ export type IMovies = {
 
 export interface MoviesResponse {
     page: number;
-    results: IMovies[]; 
+    results: IMoviesProps[]; 
     total_pages: number;
     total_results: number;
 }
@@ -17,5 +17,5 @@ export interface MoviesResponse {
 export type FetchState = 
     | {status: "idle"}
     | {status: "loading"}
-    | {status: "success"; data: IMovies[]}
+    | {status: "success"; data: IMoviesProps[]}
     | {status: "error"; error: string};

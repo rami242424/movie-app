@@ -1,41 +1,39 @@
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
+import type { FetchState } from "./types/movie";
 
-const API_KEY = "ce5321063aa7a0ec5d37d4a0677a3e09";
-
-export interface IMovieProps {
-  id: number;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  vote_average: number;
-}
+const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
 function App(){
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string|null>(null);
+  const [fetchState, setFetchState] = useState<FetchState>({status: "idle"});
   const [keyword, setKeyword] = useState("");
-  const [movies, setMovies] = useState<IMovieProps[]>([]);
 
   const SearchBtn = async() => {
     if(!keyword.trim()) return;
-    setLoading(true);
-    setError(null);
-    setMovies([]);
+    setFetchState({status: "loading"});
 
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}&api_key=${API_KEY}`);
+      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${API_TOKEN}`
+        }
+      }
+      );
       if(!response.ok) throw new Error("API 연결 실패");
       const json = await response.json();
-      setMovies(json.results);
+      setFetchState({
+        status: "success",
+        data: json.results
+      });
     } catch(error) {
       if(error instanceof Error){
-        setError(error.message);
+        setFetchState({
+          status: "error",
+          error: error.message
+        });
       }
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -46,14 +44,15 @@ function App(){
         SearchBtn={SearchBtn}
         keyword={keyword}
       />
-      {loading && <div>Loading</div>}
-      {error && <div>{error}</div>}
-      {!loading && !error && keyword && movies.length === 0 ? (
-        <div>검색된 결과가 없습니다.</div>
-      ):(
-        <MovieList 
-          movies={movies}
-        />
+      {fetchState.status === "loading" && <div>Loading...</div>}
+      {fetchState.status === "error" && <div>{fetchState.error}</div>}
+      {fetchState.status === "success" && (
+        fetchState.data.length > 0 
+        ? (
+          <MovieList movies={fetchState.data}/>
+        ) : (
+          <div>검색된 결과가 없습니다.</div>
+        )
       )}
     </>
   );

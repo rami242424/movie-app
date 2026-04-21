@@ -1,8 +1,8 @@
-import type { IMovieProps } from "../App";
+import type { IMoviesProps } from "../types/movie";
 import MovieItem from "./MovieItem";
 
 interface IMovieListprops {
-  movies: IMovieProps[];
+  movies: IMoviesProps[];
 }
 
 function MovieList({movies}:IMovieListprops){
