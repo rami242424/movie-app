@@ -1,68 +1,84 @@
 import { useState } from "react";
-import { type FetchState  } from "./types/movie";
-import SearchBar from "./components/SearchBar";
-import MovieList from "./components/MovieList";
 
-const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+const API_KEY = "ce5321063aa7a0ec5d37d4a0677a3e09";
+export interface IMovieProps {
+  id: number;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+}
 
 function App(){
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string|null>(null);
   const [keyword, setKeyword] = useState("");
-  const [fetchState, setFetchState] = useState<FetchState>({status: "idle"});
+  const [movies, setMovies] = useState<IMovieProps[]>([]);
 
+  const SearchInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  }
+  const SearchBtn = async() => {
+    if(!keyword.trim()) return;
+    setLoading(true);
+    setError(null);
+    setMovies([]);
 
-  const searchMovie = async() => {
-    if(!keyword.trim()) return; 
-    if(fetchState.status === "loading") return;
-    setFetchState({status: "loading"});
-
-    try{
-      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`,
-      {
-        headers: {
-          Authorization: `Bearer ${API_TOKEN}`
-        }
-      }
-      );
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}&api_key=${API_KEY}`);
       if(!response.ok) throw new Error("API 연결 실패");
       const json = await response.json();
-      setFetchState({
-        status: "success",
-        data: json.results
-      });
-    } catch(error){
+      setMovies(json.results);
+    } catch(error) {
       if(error instanceof Error){
-        setFetchState({
-          status: "error",
-          error: error.message
-        })
+        setError(error.message);
       }
-    } 
+    } finally {
+      setLoading(false);
+    }
   }
+
   return(
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-10">
-      <div className="w-full max-w-3xl">
-        <SearchBar 
-          keyword={keyword}
-          setKeyword={setKeyword}
-          searchMovie={searchMovie}
-        />
-        {/* {fetchState.status === "loading" && <div>Loading...</div>} */}
-        {fetchState.status === "error" && <div>{fetchState.error}</div>}
-        {/* {fetchState.status === "success" && (
-          fetchState.data.length === 0
-          ? <div>검색결과가 없습니다.</div>
-          : <MovieList movies={fetchState.data}/>
-        )} */}
-        {fetchState.status === "loading" && (
-          <MovieList movies={[]} isLoading={true} />
-        )}
-        {fetchState.status === "success" && (
-          fetchState.data.length === 0
-          ? <div>검색결과가 없습니다.</div>
-          : <MovieList movies={fetchState.data}/>
-        )}
-      </div>  
-    </div>
+    <>
+      <input
+        onKeyDown={(e) => {if(e.key === "Enter") SearchBtn()}}
+        onChange={SearchInputChange}
+        value={keyword}
+        placeholder="영화를 검색해주세요."
+      />
+      <button
+        onClick={SearchBtn}
+      >
+        Search
+      </button>
+      {loading && <div>Loading</div>}
+      {error && <div>{error}</div>}
+      {!loading && !error && keyword && movies.length === 0 ? (
+        <div>검색된 결과가 없습니다.</div>
+      ):(
+        <ul>
+          {movies.map((movie) => 
+            <li key={movie.id}>
+              {movie.poster_path ?
+                (<img 
+                alt={movie.title}
+                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                />
+              ) : (
+                <p>No Image</p>
+              )
+              }
+              <h2>{movie.title}</h2>
+              <p>{movie.release_date}</p>
+              <p>{movie.overview}</p>
+              <p>🌟{movie.vote_average}</p>
+            </li>
+          )}
+        </ul>
+      )}
+
+    </>
   );
 }
 
