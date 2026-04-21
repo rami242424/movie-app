@@ -10,7 +10,6 @@ export function useMovies(keyword : string){
         setFetchState({status: "loading"});
 
         try {
-        await new Promise(resolve => setTimeout(resolve, 3000));
         const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`,
         {
             headers: {
