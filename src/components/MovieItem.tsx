@@ -1,4 +1,4 @@
-import type { IMovies } from "../types/movie";
+import type { IMovies } from "../types/movie"; 
 
 interface IMovieItemProps {
   movie: IMovies

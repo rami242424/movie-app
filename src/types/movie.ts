@@ -9,7 +9,7 @@ export type IMovies = {
 
 export interface MoviesResponse {
     page: number;
-    results: IMovies[];
+    results: IMovies[]; 
     total_pages: number;
     total_results: number;
 }

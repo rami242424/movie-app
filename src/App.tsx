@@ -11,7 +11,7 @@ function App(){
 
 
   const searchMovie = async() => {
-    if(!keyword.trim()) return;
+    if(!keyword.trim()) return; 
     if(fetchState.status === "loading") return;
     setFetchState({status: "loading"});
 

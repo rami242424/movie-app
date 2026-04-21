@@ -14,7 +14,7 @@ function SearchBar({keyword, setKeyword, searchMovie}:ISearchBarProps){
         className="flex-1 p-2 border border-gray-300 rounded"
         value={keyword}
         placeholder="영화이름을 검색하세요."
-        onChange={handleInputChange}
+        onChange={handleInputChange} 
         onKeyDown={(e) => {
           if(e.key === "Enter") searchMovie();
         }}
