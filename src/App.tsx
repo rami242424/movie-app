@@ -46,8 +46,16 @@ function App(){
           setKeyword={setKeyword}
           searchMovie={searchMovie}
         />
-        {fetchState.status === "loading" && <div>Loading...</div>}
+        {/* {fetchState.status === "loading" && <div>Loading...</div>} */}
         {fetchState.status === "error" && <div>{fetchState.error}</div>}
+        {/* {fetchState.status === "success" && (
+          fetchState.data.length === 0
+          ? <div>검색결과가 없습니다.</div>
+          : <MovieList movies={fetchState.data}/>
+        )} */}
+        {fetchState.status === "loading" && (
+          <MovieList movies={[]} isLoading={true} />
+        )}
         {fetchState.status === "success" && (
           fetchState.data.length === 0
           ? <div>검색결과가 없습니다.</div>
