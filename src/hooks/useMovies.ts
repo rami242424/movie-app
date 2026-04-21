@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { FetchState } from "../types/movie";
+import type { FetchState, MoviesResponse } from "../types/movie";
 
 export const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
@@ -18,7 +18,8 @@ export function useMovies(keyword : string){
         }
         );
         if(!response.ok) throw new Error("API 연결 실패");
-        const json = await response.json();
+        const json :MoviesResponse = await response.json();
+        
         setFetchState({
             status: "success",
             data: json.results
