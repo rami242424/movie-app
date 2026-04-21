@@ -1,6 +1,9 @@
 import { useState } from "react";
+import SearchBar from "./components/SearchBar";
+import MovieList from "./components/MovieList";
 
 const API_KEY = "ce5321063aa7a0ec5d37d4a0677a3e09";
+
 export interface IMovieProps {
   id: number;
   overview: string;
@@ -16,9 +19,6 @@ function App(){
   const [keyword, setKeyword] = useState("");
   const [movies, setMovies] = useState<IMovieProps[]>([]);
 
-  const SearchInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  }
   const SearchBtn = async() => {
     if(!keyword.trim()) return;
     setLoading(true);
@@ -41,43 +41,20 @@ function App(){
 
   return(
     <>
-      <input
-        onKeyDown={(e) => {if(e.key === "Enter") SearchBtn()}}
-        onChange={SearchInputChange}
-        value={keyword}
-        placeholder="영화를 검색해주세요."
+      <SearchBar 
+        setKeyword={setKeyword}
+        SearchBtn={SearchBtn}
+        keyword={keyword}
       />
-      <button
-        onClick={SearchBtn}
-      >
-        Search
-      </button>
       {loading && <div>Loading</div>}
       {error && <div>{error}</div>}
       {!loading && !error && keyword && movies.length === 0 ? (
         <div>검색된 결과가 없습니다.</div>
       ):(
-        <ul>
-          {movies.map((movie) => 
-            <li key={movie.id}>
-              {movie.poster_path ?
-                (<img 
-                alt={movie.title}
-                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                />
-              ) : (
-                <p>No Image</p>
-              )
-              }
-              <h2>{movie.title}</h2>
-              <p>{movie.release_date}</p>
-              <p>{movie.overview}</p>
-              <p>🌟{movie.vote_average}</p>
-            </li>
-          )}
-        </ul>
+        <MovieList 
+          movies={movies}
+        />
       )}
-
     </>
   );
 }
