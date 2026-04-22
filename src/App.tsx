@@ -18,13 +18,15 @@ function App(){
         {fetchState.status === "loading" && (
           <MovieList movies={[]} isLoading={true}/>
         )}
-        {fetchState.status === "error" && <div>{fetchState.error}</div>}
+        {fetchState.status === "error" && (
+          <div className="text-red-400 text-center py-20 text-lg">{fetchState.error}</div>
+        )}
         {fetchState.status === "success" && (
           fetchState.data.length > 0 
           ? (
             <MovieList movies={fetchState.data}/>
           ) : (
-            <div>검색된 결과가 없습니다.</div>
+            <div  className="text-gray-400 text-center py-20 text-lg">검색된 결과가 없습니다.</div>
           )
         )}
       </div>
