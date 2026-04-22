@@ -1,9 +1,10 @@
 import { useState } from "react";
-import type { FetchState, MoviesResponse } from "../types/movie";
+import type { FetchState, FilterType, MoviesResponse } from "../types/movie";
 
 export const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
 export function useMovies(keyword : string){
+    const [filter, setFilter] = useState<FilterType>("default");
     const [fetchState, setFetchState] = useState<FetchState>({status: "idle"});
     const SearchBtn = async() => {
         if(!keyword.trim()) return;
@@ -33,6 +34,22 @@ export function useMovies(keyword : string){
         }
         }
     }
-    return { fetchState, SearchBtn };
+
+    const getSortedMovies = () => {
+        if(fetchState.status !== "success") return[];
+
+        if(filter === "rating"){
+            return [...fetchState.data].sort((a,b) => b.vote_average - a.vote_average)
+        }
+
+        if(filter === "release"){
+            return [...fetchState.data].sort((a,b) => b.release_date.localeCompare(a.release_date))
+        }
+
+        return fetchState.data
+    }
+
+    const sortedMovies = getSortedMovies();
+    return { fetchState, SearchBtn, filter, setFilter, sortedMovies };
 }
 

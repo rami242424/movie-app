@@ -6,7 +6,7 @@ import { useMovies } from "./hooks/useMovies";
 
 function App(){
   const [keyword, setKeyword] = useState("");
-  const { fetchState, SearchBtn } = useMovies(keyword);
+  const { fetchState, SearchBtn, sortedMovies, filter, setFilter} = useMovies(keyword);
   return(
     <div className="min-h-screen bg-[#141414] flex flex-col items-center py-10">
       <div className="w-full max-w-3xl">
@@ -15,6 +15,18 @@ function App(){
           SearchBtn={SearchBtn}
           keyword={keyword}
         />
+        <div className="flex gap-2 mb-4">
+          <button 
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === "default" ? "bg-[#E50914] text-white" : "bg-[#2a2a2a] text-gray-400 hover:bg-[#3a3a3a]"}`}
+            onClick={() => setFilter("default")}>전체</button>
+          <button 
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === "release" ? "bg-[#E50914] text-white" : "bg-[#2a2a2a] text-gray-400 hover:bg-[#3a3a3a]"}`}
+            onClick={() => setFilter("release")}>최신순</button>
+          <button 
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${filter === "rating" ? "bg-[#E50914] text-white" : "bg-[#2a2a2a] text-gray-400 hover:bg-[#3a3a3a]"}`}
+            onClick={() => setFilter("rating")}>평점순</button>
+        </div>
+
         {fetchState.status === "loading" && (
           <MovieList movies={[]} isLoading={true}/>
         )}
@@ -24,7 +36,7 @@ function App(){
         {fetchState.status === "success" && (
           fetchState.data.length > 0 
           ? (
-            <MovieList movies={fetchState.data}/>
+            <MovieList movies={sortedMovies}/>
           ) : (
             <div  className="text-gray-400 text-center py-20 text-lg">검색된 결과가 없습니다.</div>
           )

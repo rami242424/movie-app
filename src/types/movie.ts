@@ -19,3 +19,5 @@ export type FetchState =
     | {status: "loading"}
     | {status: "success"; data: IMoviesProps[]}
     | {status: "error"; error: string};
+
+export type FilterType = "default" | "release" | "rating"
