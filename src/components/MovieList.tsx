@@ -20,7 +20,7 @@ function MovieList({movies, isLoading}:IMovieListprops){
         ):(
           movies.map((movie) => (
             <MovieItem movie={movie} key={movie.id}/>
-          ))
+          )) 
         )}
       </ul>
     </>

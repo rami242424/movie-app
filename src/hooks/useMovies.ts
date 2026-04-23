@@ -24,7 +24,7 @@ export function useMovies(keyword : string){
         setFetchState({
             status: "success",
             data: json.results
-        });
+        }); 
         } catch(error) {
         if(error instanceof Error){
             setFetchState({

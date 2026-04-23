@@ -9,4 +9,4 @@ export default function MovieSkeleton() {
       <div className="h-3 bg-[#2a2a2a] rounded w-1/2" />
     </li>
   );
-}
+} 

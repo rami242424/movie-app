@@ -6,7 +6,7 @@ export type IMoviesProps = {
     title: string;
     release_date: string;
 }
-
+ 
 export interface MoviesResponse {
     page: number;
     results: IMoviesProps[]; 

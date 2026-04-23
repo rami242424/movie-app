@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { IMoviesProps } from "../types/movie";
 
 interface IMovieItemProps{
@@ -5,10 +6,12 @@ interface IMovieItemProps{
 }
 
 function MovieItem({movie}:IMovieItemProps){
-  return(
+  const navigate = useNavigate();
+  return( 
     <>
       <li
-        className="bg-[#1f1f1f] rounded shadow p-3 flex flex-col gap-2"
+        onClick={() => navigate(`/movie/${movie.id}`)}
+        className="bg-[#1f1f1f] rounded shadow p-3 flex flex-col gap-2 cursor-pointer"
       >
         {movie.poster_path ?
           (<img

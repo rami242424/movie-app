@@ -7,7 +7,7 @@ interface ISearchProps{
 function SearchBar({setKeyword, SearchBtn, keyword}:ISearchProps){
   const SearchInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-  }
+  } 
   return(
     <div className="flex gap-2 mb-6 max-w-md mx-auto">
       <input
@@ -22,7 +22,7 @@ function SearchBar({setKeyword, SearchBtn, keyword}:ISearchProps){
         onClick={SearchBtn}
       >
         Search
-      </button>
+      </button> 
     </div>
   );
 }
