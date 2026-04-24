@@ -1,38 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import type { IMoviesProps } from "../types/movie";
 
-interface IMovieItemProps{
+interface IMovieItemProp {
   movie: IMoviesProps;
 }
-
-function MovieItem({movie}:IMovieItemProps){
-  const navigate = useNavigate();
+function MovieItem ({movie}:IMovieItemProp){
   return( 
     <>
-      <li
-        onClick={() => navigate(`/movie/${movie.id}`)}
-        className="bg-[#1f1f1f] rounded shadow p-3 flex flex-col gap-2 cursor-pointer"
-      >
-        {movie.poster_path ?
-          (<img
-            className="w-full aspect-2/3 object-cover rounded"
-            alt={movie.title}
-            src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-          />
-        ) : (
-          <div className="w-full aspect-2/3 bg-[#4a4848] flex items-center justify-center text-gray-400 rounded"
-          >
-            🎬 No Image
-          </div>
-        )
-        }
-        <h2 className="font-semibold text-sm leading-tight text-white">{movie.title}</h2>
-        <p className="font-mono text-xs text-gray-400">{movie.release_date}</p>
-        <p className="line-clamp-3 text-sm text-white">{movie.overview}</p>
-        <p className="text-sm text-white">🌟{movie.vote_average}</p>
+      <li key={movie.id}>
+        <h3>{movie.title}</h3>
+        <p>{movie.overview}</p>
       </li>
     </>
   );
 }
-
-export default MovieItem;
+export default MovieItem

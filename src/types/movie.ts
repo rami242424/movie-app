@@ -7,7 +7,7 @@ export type IMoviesProps = {
     release_date: string;
 }
  
-export interface MoviesResponse {
+export interface MoviesResponse { 
     page: number;
     results: IMoviesProps[]; 
     total_pages: number;

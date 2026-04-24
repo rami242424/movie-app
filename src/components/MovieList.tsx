@@ -1,30 +1,28 @@
-
 import type { IMoviesProps } from "../types/movie";
 import MovieItem from "./MovieItem";
 import MovieSkeleton from "./MovieSkeleton";
 
-interface IMovieListprops {
-  movies: IMoviesProps[];
-  isLoading?: boolean;
-}
+interface IMovieListProps{
+  movies: IMoviesProps[]; 
+  isLoading?: boolean; 
+} 
 
-function MovieList({movies, isLoading}:IMovieListprops){
+function MovieList({movies, isLoading}:IMovieListProps){
   return(
     <>
-      <ul className="grid grid-cols-3 gap-4">
+      <ul>
         {isLoading 
         ? (
-          Array.from({length:9}).map((_,i) => (
-            <MovieSkeleton key={i}/>
-          ))
-        ):(
+          Array.from({length: 9}).map((_,i) =>
+          <MovieSkeleton key={i}/>)
+        ) : (
           movies.map((movie) => (
-            <MovieItem movie={movie} key={movie.id}/>
-          )) 
+            <MovieItem movie={movie} />
+            ))
         )}
       </ul>
     </>
-  );
+  )
 }
 
 export default MovieList;

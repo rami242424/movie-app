@@ -1,29 +1,23 @@
-interface ISearchProps{
-  setKeyword: (value:string) => void;
-  SearchBtn: () => void;
-  keyword: string;
-}
 
-function SearchBar({setKeyword, SearchBtn, keyword}:ISearchProps){
-  const SearchInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+interface ISearchBar {
+  setKeyword: (value:string) => void;
+  keyword: string;
+  handleSearchBtn: () => void;
+} 
+
+function SearchBar({setKeyword, keyword, handleSearchBtn}:ISearchBar){
+  const searchInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
-  } 
+  }
   return(
-    <div className="flex gap-2 mb-6 max-w-md mx-auto">
-      <input
-        className="flex-1 p-2 border bg-[#141414] border-gray-400 rounded text-white placeholder:text-gray-400"
-        onKeyDown={(e) => {if(e.key === "Enter") SearchBtn()}}
-        onChange={SearchInputChange}
-        value={keyword}
-        placeholder="영화를 검색해주세요."
-      />
-      <button
-        className="px-4 py-2 bg-[#f3020e] rounded hover:bg-[#ce101a] text-white"
-        onClick={SearchBtn}
-      >
-        Search
-      </button> 
-    </div>
+    <>
+      <input 
+        onKeyDown={(e) => e.key === "Enter" && handleSearchBtn()} 
+        value={keyword} 
+        placeholder="영화 제목을 검색해주세요." 
+        onChange={searchInputChange}/>
+      <button onClick={handleSearchBtn}>Search</button>
+    </>
   );
 }
 
