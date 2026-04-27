@@ -1,22 +1,21 @@
 import { useState } from "react";
-import type { IMoviesProps } from "./types/movie";
+import type { FetchState } from "./types/movie";
 
 const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
 function App(){
   const [keyword, setKeyword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string|null>(null);
-  const [movies, setMovies] = useState<IMoviesProps[]>([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string|null>(null);
+  // const [movies, setMovies] = useState<IMoviesProps[]>([]);
+  const [fetchState, setFetchState] = useState<FetchState>({status:"idle"});
   const inputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   }
   const searchBtn = async() => {
     if(!keyword.trim()) return;
 
-    setLoading(true);
-    setError(null);
-    setMovies([]);
+    setFetchState({status:"loading"});
 
     try{
 
@@ -31,13 +30,11 @@ function App(){
       if(!response.ok) throw new Error("API 연결 실패");
       
       const json = await response.json();
-      setMovies(json.results);
+      setFetchState({status: "success", data: json.results});
     } catch(error){
       if(error instanceof Error){
-        setError(error.message);
+        setFetchState({status:"error", error: error.message});
       }
-    } finally{
-      setLoading(false);
     }
   }
   return(
@@ -53,25 +50,29 @@ function App(){
       >
         Search
       </button>
-      {loading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
-      {keyword && !loading && !error && movies.length === 0 && <div>검색결과가 없습니다.</div>}
-      {!loading && !error && movies.length > 0 && (
-        <ul>
-          {movies.map((movie) => ( 
-            <li key={movie.id}>
-              <img
-                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                alt={movie.title}
-              />
-              <h2>{movie.title}</h2>
-              <p>{movie.release_date}</p>
-              <span>{movie.overview}</span>
-              <p>{movie.vote_average}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* {fetchState.status === "idle" &&} */}
+      {fetchState.status === "loading" && <div>Loading...</div>}
+      {fetchState.status === "error" && <div>{fetchState.error}</div>}
+      {fetchState.status === "success" && (
+        fetchState.data.length > 0 
+        ? (
+          <ul>
+            {fetchState.data.map((movie) => ( 
+              <li key={movie.id}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                  alt={movie.title}
+                />
+                <h2>{movie.title}</h2>
+                <p>{movie.release_date}</p>
+                <span>{movie.overview}</span>
+                <p>{movie.vote_average}</p>
+              </li>
+            ))}
+          </ul>
+          ) : <div>검색결과가 없습니다.</div>
+        )
+      }
     </>
   );
 }
