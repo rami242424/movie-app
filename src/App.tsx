@@ -55,9 +55,10 @@ function App(){
       </button>
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {!loading && !error && (
+      {keyword && !loading && !error && movies.length === 0 && <div>검색결과가 없습니다.</div>}
+      {!loading && !error && movies.length > 0 && (
         <ul>
-          {movies.map((movie) => (
+          {movies.map((movie) => ( 
             <li key={movie.id}>
               <img
                 src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
