@@ -58,7 +58,7 @@ function App(){
       {!loading && !error && (
         <ul>
           {movies.map((movie) => (
-            <li>
+            <li key={movie.id}>
               <img
                 src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                 alt={movie.title}
