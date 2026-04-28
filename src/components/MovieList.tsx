@@ -8,7 +8,7 @@ interface IMovieList {
 }
 function MovieList({movies, isLoading}:IMovieList){
   return(
-    <ul>
+    <ul  className="grid grid-cols-3 gap-4">
         {isLoading 
         ? ( 
           Array.from({length: 9}).map((_,i) => <MovieSkeleton key={i}/>)
