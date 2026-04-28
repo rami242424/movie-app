@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FetchState } from "../types/movie";
 
-const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
+export const API_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
 export function useMovies(keyword:string){
     const [fetchState, setFetchState] = useState<FetchState>({status:"idle"});

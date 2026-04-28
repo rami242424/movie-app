@@ -6,7 +6,7 @@ export type IMoviesProps = {
     title: string;
     release_date: string;
 }
- 
+
 export interface MoviesResponse { 
     page: number;
     results: IMoviesProps[]; 
@@ -21,3 +21,9 @@ export type FetchState =
     | {status: "error"; error: string};
 
 export type FilterType = "default" | "release" | "rating"
+
+export type DetailFetchState = 
+    | {status: "idle"}
+    | {status: "loading"}
+    | {status: "success"; data: IMoviesProps}
+    | {status: "error"; error: string};
