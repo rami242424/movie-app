@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMovieDetail } from "../hooks/useMovieDetail";
 
 function MovieDetail(){
     const { id } = useParams();
     const {fetchState} = useMovieDetail(id ?? "");
+    const navigate = useNavigate();
     return(
         <>
+            <button onClick={() => navigate(-1)}>🔙뒤로가기</button>
             {fetchState.status === "loading" && <div>Loading...</div>}
             {fetchState.status === "success" && (
                 <>

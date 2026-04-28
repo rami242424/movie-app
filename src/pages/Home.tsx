@@ -8,16 +8,18 @@ function Home(){
     const {searchBtn, fetchState, getSortedMovies, setFilter} = useMovies(keyword);
     return(
         <>
-            <div>
-                <button onClick={() => setFilter("default")}>전체</button>
-                <button onClick={() => setFilter("release")}>최신순</button>
-                <button onClick={() => setFilter("rating")}>별점순</button>
-            </div>
             <SearchBar 
                 keyword={keyword}
                 setKeyword={setKeyword}
                 searchBtn={searchBtn}
             />
+            { fetchState.status === "success" &&
+            <div>   
+                <button onClick={() => setFilter("default")}>전체</button>
+                <button onClick={() => setFilter("release")}>최신순</button>
+                <button onClick={() => setFilter("rating")}>별점순</button>
+            </div>
+            }
             {fetchState.status === "loading" && <MovieList movies={[]} isLoading={true}/>}
             {fetchState.status === "error" && <div>{fetchState.error}</div>}
             {fetchState.status === "success" && (
