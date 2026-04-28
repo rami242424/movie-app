@@ -6,7 +6,13 @@ function MovieDetail(){
     const {fetchState} = useMovieDetail(id ?? "");
     return(
         <>
-            {fetchState.status === "success" && <div>{fetchState.data.title}</div>}
+            {fetchState.status === "loading" && <div>Loading...</div>}
+            {fetchState.status === "success" && (
+                <>
+                    <h3>{fetchState.data.title}</h3>
+                    <img src={`https://image.tmdb.org/t/p/w300/${fetchState.data.poster_path}`}/>
+                </>
+            )}
         </>
     );
 }

@@ -24,8 +24,6 @@ export function useMovieDetail(id:string){
                 if(error instanceof Error){
                     setFetchState({ status: "error", error: error.message });
                 }
-            } finally {
-                //
             }
         }
         detailFetch()
