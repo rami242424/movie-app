@@ -4,7 +4,7 @@ import MovieSkeleton from "./MovieSkeleton";
 
 interface IMovieList {
   movies: IMoviesProps[];
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 function MovieList({movies, isLoading}:IMovieList){
   return(

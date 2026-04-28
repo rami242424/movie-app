@@ -13,12 +13,12 @@ function Home(){
                 setKeyword={setKeyword}
                 searchBtn={searchBtn}
             />
-            {fetchState.status === "loading" && <div>Loading...</div>}
+            {fetchState.status === "loading" && <MovieList movies={[]} isLoading={true}/>}
             {fetchState.status === "error" && <div>{fetchState.error}</div>}
             {fetchState.status === "success" && (
                 fetchState.data.length > 0 
                 ? (
-                <MovieList movies={fetchState.data} isLoading={true}/>
+                <MovieList movies={fetchState.data}/>
                 ) : <div>검색결과가 없습니다.</div>
                 )
             }
