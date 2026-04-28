@@ -6,6 +6,7 @@ export function useMovieDetail(id:string){
     const [fetchState, setFetchState] = useState<DetailFetchState>({status:"idle"});
     useEffect(() => {
         const detailFetch = async() => {
+            setFetchState({status:"loading"});
             try{
                 const response = await fetch(`https://api.themoviedb.org/3/movie/${id}`,
                     {
