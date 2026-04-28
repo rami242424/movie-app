@@ -18,7 +18,7 @@ function Home(){
             {fetchState.status === "success" && (
                 fetchState.data.length > 0 
                 ? (
-                <MovieList movies={fetchState.data}/>
+                <MovieList movies={fetchState.data} isLoading={true}/>
                 ) : <div>검색결과가 없습니다.</div>
                 )
             }

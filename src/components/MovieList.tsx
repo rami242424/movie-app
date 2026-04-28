@@ -1,18 +1,24 @@
 import type { IMoviesProps } from "../types/movie";
 import MovieItem from "./MovieItem";
+import MovieSkeleton from "./MovieSkeleton";
 
 interface IMovieList {
   movies: IMoviesProps[];
+  isLoading: boolean;
 }
-function MovieList({movies}:IMovieList){
+function MovieList({movies, isLoading}:IMovieList){
   return(
-    <>
-      <ul>
-          {movies.map((movie) => ( 
+    <ul>
+        {isLoading 
+        ? ( 
+          Array.from({length: 9}).map((_,i) => <MovieSkeleton key={i}/>)
+        ):(
+          movies.map((movie) => ( 
             <MovieItem movie={movie} key={movie.id}/>
-          ))}
-      </ul>
-    </>
+          ))
+        )
+        }
+    </ul>
   );
 }
 export default MovieList;
