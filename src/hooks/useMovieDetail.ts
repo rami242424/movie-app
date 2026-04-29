@@ -17,7 +17,7 @@ export function useMovieDetail(id:string){
                 );
                 if(!response.ok) throw new Error("API 연결 실패");
                 const json = await response.json();
-                setFetchState({status:"success", data:json.results})
+                setFetchState({status:"success", data:json})
             }catch(error){
                 if(error instanceof Error){
                     setFetchState({status:"error", error:error.message});
