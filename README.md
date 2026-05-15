@@ -14,8 +14,8 @@
 
 ## 📸 화면 구성
 
-| 홈 | 검색 결과 | 상세 페이지 |
-|---|---|---|
+| 홈                           | 검색 결과                            | 상세 페이지                      |
+| ---------------------------- | ------------------------------------ | -------------------------------- |
 | ![홈](./screenshot_home.png) | ![검색결과](./screenshot_search.png) | ![상세](./screenshot_detail.png) |
 
 ---
@@ -28,18 +28,19 @@
 - 영화 클릭 시 상세 페이지로 이동
 - 상세 페이지에서 포스터, 개봉일, 평점, 줄거리 확인
 - API 실패 / 검색 결과 없음 예외 처리
+- 상세 페이지 로딩 중 Loading 표시
 
 ---
 
 ## 🛠 기술 스택
 
-| 역할 | 기술 |
-|---|---|
-| UI | React 18 |
-| 언어 | TypeScript |
-| 스타일 | Tailwind CSS |
+| 역할   | 기술            |
+| ------ | --------------- |
+| UI     | React 18        |
+| 언어   | TypeScript      |
+| 스타일 | Tailwind CSS    |
 | 라우팅 | React Router v6 |
-| API | TMDB REST API |
+| API    | TMDB REST API   |
 
 ---
 
@@ -82,7 +83,7 @@ type FetchState =
 
 ### 커스텀 훅으로 로직과 UI 분리
 
-컴포넌트 안에 fetch 로직이 섞이면 UI 수정과 로직 수정이 서로 영향을 주게 됩니다. `useMovies`와 `useMovieDetail`로 로직을 분리해 컴포넌트는 렌더링에만 집중하도록 했습니다.
+컴포넌트 안에 fetch 로직이 섞이면 UI 수정과 로직 수정이 서로 영향을 주게 됩니다. `useMovies`와 `useMovieDetail`로 로직을 분리해 컴포넌트는 렌더링에만 집중하도록 했습니다. `useMovieDetail`은 `idle → loading → success/error` 순서로 상태가 전환되어 데이터 로딩 중에도 사용자에게 피드백을 제공합니다.
 
 특히 `useMovieDetail`은 `id`를 훅 내부에서 `useParams()`로 직접 가져오지 않고 외부에서 주입받도록 설계했습니다. 훅이 URL 구조에 의존하게 되면 `/movie/:id` 라우트 밖에서는 재사용이 불가능해지기 때문입니다.
 
@@ -105,7 +106,7 @@ export function useMovieDetail(id: string) { ... }
 TMDB API에 한글 키워드를 그대로 URL에 넣으면 인코딩 문제로 검색이 실패할 수 있습니다. `encodeURIComponent`를 적용해 한글을 포함한 모든 키워드가 올바르게 전달되도록 했습니다.
 
 ```ts
-`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`
+`https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(keyword)}`;
 ```
 
 ---
