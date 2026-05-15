@@ -21,7 +21,7 @@ export function useMovies(keyword:string){
               }
             }
         );
-        if(!response.ok) throw new Error("API 연결 실패: ${response.status}`");
+        if(!response.ok) throw new Error(`API 연결 실패: ${response.status}`);
 
         const json = await response.json();
         setFetchState({status: "success", data: json.results});
